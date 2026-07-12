@@ -5,7 +5,7 @@ vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
 
 boot: disk
 
-ata0-master: type=disk, path="os.img", mode=flat, cylinders=1, heads=1, spt=2
+ata0-master: type=disk, path="build/os.img", mode=flat, cylinders=1, heads=1, spt=2
 
 display_library: x
 

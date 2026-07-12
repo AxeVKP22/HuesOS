@@ -92,6 +92,7 @@ error_code db 0
 times 510-($-$$) db 0
 dw 0xaa55
 
+;ndisasm -b 16 -o 0x7C00 build/os.img
 ;bochs -f bochsrc.txt 
 ;bochs -debugger -f bochsrc.txt ;ndisasm -b 16 os.img 
 ;dd if=/home/axe/gitProjects/wowos/build/os.img of=/dev/sda bs=4M status=progress conv=fsync
