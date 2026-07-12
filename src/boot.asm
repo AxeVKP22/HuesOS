@@ -92,10 +92,6 @@ error_code db 0
 times 510-($-$$) db 0
 dw 0xaa55
 
-;nasm -f bin boot.asm -o boot.bin 
-;nasm -f bin k.asm -o k.bin 
-;cat boot.bin k.bin > os.img 
-;truncate -s 1024 os.img 
 ;bochs -f bochsrc.txt 
 ;bochs -debugger -f bochsrc.txt ;ndisasm -b 16 os.img 
-;dd if=/home/axe/gitProjects/wowos/os.img of=/dev/sda bs=4M status=progress conv=fsync
+;dd if=/home/axe/gitProjects/wowos/build/os.img of=/dev/sda bs=4M status=progress conv=fsync
