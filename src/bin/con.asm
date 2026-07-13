@@ -1,15 +1,11 @@
 ;a litle console
 con:
     ;print ">"
-    mov si, conMsg
-    call printString
+    mov al, 0x3E
+    call printChar
 
     ;take input until enter is pressed
     call .input
-
-    ;print the input
-    mov si, buffer
-    call printString
 
     call newLine
 
@@ -40,6 +36,9 @@ con:
     mov [buffer + bx], al
     inc byte [key_counter]
 
+    ;print key to the screen
+    call printChar
+
     ;loop
     jmp .input
 
@@ -58,6 +57,18 @@ con:
     xor bx, bx
     mov bl, [key_counter]
     mov byte [buffer + bx], 0
+
+    ;get cursor pos, set it to back row and print ' ' 
+    call getCursorPos
+    mov bh, 0
+    call setCursorPos
+    mov ah, 09h
+    mov al, ' '
+    mov bh, 0
+    mov bl, 07h
+    mov cx, 1
+    int 10h
+
     jmp .input
 
 .exCmd:
@@ -109,10 +120,10 @@ con:
 %include "src/kernel/keyboard.asm"
 %include "src/kernel/power.asm"
 
-poweroffCmd db "poweroff"
 clearCmd db "clear"
 rebootCmd db "reboot"
 helpCmd db "help"
+
 notFoundMsg db ": Command not found", 0x0d , 0x0a, 0
 helpMsg db "Available commands:", 0x0d , 0x0a, \
              "clear - clears the screen", 0x0d , 0x0a, \
@@ -122,4 +133,3 @@ helpMsg db "Available commands:", 0x0d , 0x0a, \
 
 key_counter db 0
 buffer times 64 db 0
-conMsg db ">", 0

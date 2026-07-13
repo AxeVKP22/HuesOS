@@ -1,5 +1,26 @@
 ;all of ts just a interrupt calls
 
+;bh - page n
+;dh - row
+;dl - collumn
+setCursorPos:
+    mov ah, 02h
+    int 0x10
+
+;dh - row
+;dl - collumn
+getCursorPos:
+    mov ah, 03h
+    mov bh, 0
+    int 0x10
+
+;al - char
+printChar:
+    mov ah, 0x0e
+    int 0x10
+    ret
+
+;si - string
 printString:
     lodsb
     cmp al, 0

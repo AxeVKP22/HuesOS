@@ -1,3 +1,5 @@
+;al - char
+;ah - scancode
 readKey:
     mov ah, 0
     int 16h

@@ -16,11 +16,6 @@ start:
     mov ax, 0x0003
     int 0x10
 
-    ; print S
-    mov ah, 0x0e
-    mov al, 'S'
-    int 0x10
-
     mov al, [boot_drive] ; for some reason, without this kernel will not load
     call print_hex       ; and this too
 
