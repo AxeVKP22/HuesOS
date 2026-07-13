@@ -16,6 +16,11 @@ start:
     mov ax, 0x0003
     int 0x10
 
+    ; print S
+    mov ah, 0x0e
+    mov al, 'S'
+    int 0x10
+
     mov al, [boot_drive] ; for some reason, without this kernel will not load
     call print_hex       ; and this too
 
@@ -82,7 +87,6 @@ print_nibble:
 
 boot_drive db 0
 error_code db 0
-
 
 times 510-($-$$) db 0
 dw 0xaa55
