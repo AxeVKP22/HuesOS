@@ -18,7 +18,7 @@ start:
 
     ; print S
     mov ah, 0x0e
-    mov al, 'S'
+    mov al, 'S'     ; this code is so unstable that without printring s kernel will not load :/
     int 0x10
 
     mov al, [boot_drive] ; for some reason, without this kernel will not load
@@ -26,7 +26,7 @@ start:
 
     ; read sector 2
     mov ah, 0x02
-    mov al, 2          ; sectors to read
+    mov al, 4          ; sectors to read
     mov ch, 0          ; cylinder
     mov cl, 2          ; sector (starts at 1)
     mov dh, 0          ; head
@@ -92,6 +92,6 @@ times 510-($-$$) db 0
 dw 0xaa55
 
 ;ndisasm -b 16 -o 0x7C00 build/os.img
-;bochs -f bochsrc.txt 
-;bochs -debugger -f bochsrc.txt ;ndisasm -b 16 os.img 
+;qemu-system-i386 -drive format=raw,file=build/os.img
+;ndisasm -b 16 os.img 
 ;dd if=/home/axe/gitProjects/wowos/build/os.img of=/dev/sda bs=4M status=progress conv=fsync
