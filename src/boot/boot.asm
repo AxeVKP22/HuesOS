@@ -28,7 +28,7 @@ start:
     mov ah, 0x02
     mov al, 4          ; sectors to read
     mov ch, 0          ; cylinder
-    mov cl, 2          ; sector (starts at 1)
+    mov cl, 3          ; sector (starts at 1)
     mov dh, 0          ; head
     mov dl, [boot_drive]
 
@@ -41,6 +41,7 @@ start:
 
     ; success
     xchg bx,bx
+    mov dl, [boot_drive]
     jmp 0x0000:0x7e00
 
 disk_error:
