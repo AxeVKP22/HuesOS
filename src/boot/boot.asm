@@ -92,6 +92,7 @@ error_code db 0
 times 510-($-$$) db 0
 dw 0xaa55
 
+;cat build/kernel.map
 ;ndisasm -b 16 -o 0x7C00 build/os.img
 ;qemu-system-i386 -drive format=raw,file=build/os.img
 ;ndisasm -b 16 build/os.img 

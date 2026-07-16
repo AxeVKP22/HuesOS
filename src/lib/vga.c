@@ -1,4 +1,4 @@
-#include "../include/vga.h"
+#include "../include/sys/vga.h"
 
 void printHex(char hex) {
     char h[] = "0123456789ABCDEF";

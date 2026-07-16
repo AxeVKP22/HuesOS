@@ -1,0 +1,117 @@
+
+Discarded input sections
+
+ .comment       0x00000000       0x20 build/kernel.o
+ .note.GNU-stack
+                0x00000000        0x0 build/kernel.o
+ .eh_frame      0x00000000       0x34 build/kernel.o
+ .comment       0x00000000       0x20 build/fs.o
+ .note.GNU-stack
+                0x00000000        0x0 build/fs.o
+ .eh_frame      0x00000000       0x78 build/fs.o
+ .comment       0x00000000       0x20 build/vgac.o
+ .note.GNU-stack
+                0x00000000        0x0 build/vgac.o
+ .eh_frame      0x00000000       0x38 build/vgac.o
+ .comment       0x00000000       0x20 build/string.o
+ .note.GNU-stack
+                0x00000000        0x0 build/string.o
+ .eh_frame      0x00000000       0x58 build/string.o
+ .comment       0x00000000       0x20 build/con.o
+ .note.GNU-stack
+                0x00000000        0x0 build/con.o
+ .eh_frame      0x00000000       0x38 build/con.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x00007e00                        . = 0x7e00
+
+.text           0x00007e00      0x940
+ *(.text)
+ .text          0x00007e00       0x4b build/kernel.o
+                0x00007e00                kmain
+ .text          0x00007e4b      0x3cd build/fs.o
+                0x00007e4b                initFS
+                0x00007f7b                loadFS
+                0x0000802e                makeFS
+ *fill*         0x00008218        0x8 
+ .text          0x00008220       0x1a build/keyboard.o
+                0x00008220                readKey
+ *fill*         0x0000823a        0x6 
+ .text          0x00008240       0x71 build/vga.o
+                0x00008240                setCursorPos
+                0x00008258                getCursorPos
+                0x00008274                printChar
+                0x00008284                printString
+                0x0000829d                newLine
+                0x000082aa                clearScreen
+ .text          0x000082b1       0x91 build/vgac.o
+                0x000082b1                printHex
+ *fill*         0x00008342        0xe 
+ .text          0x00008350        0x2 build/power.o
+                0x00008350                reboot
+ *fill*         0x00008352        0xe 
+ .text          0x00008360       0x66 build/disk.o
+                0x00008360                getDrive
+                0x00008370                readSectors
+                0x00008399                writeSectors
+ *fill*         0x000083c6        0xa 
+ .text          0x000083d0       0x4c build/mem.o
+                0x000083d0                memcpyToRam
+                0x000083f5                memcpyToBuff
+ .text          0x0000841c       0xe9 build/string.o
+                0x0000841c                cmpstr
+                0x000084cc                length
+ .text          0x00008505      0x23b build/con.o
+                0x00008505                con
+
+.rodata         0x00008740      0x1dd
+ *(.rodata)
+ .rodata        0x00008740       0x5a build/kernel.o
+ *fill*         0x0000879a        0x2 
+ .rodata        0x0000879c       0xea build/fs.o
+ *fill*         0x00008886        0x2 
+ .rodata        0x00008888       0x95 build/con.o
+
+.data           0x00008920       0x14
+ *(.data)
+ .data          0x00008920        0x4 build/kernel.o
+                0x00008920                kernelMsg
+ .data          0x00008924       0x10 build/fs.o
+                0x00008924                dap
+ .data          0x00008934        0x0 build/vgac.o
+ .data          0x00008934        0x0 build/string.o
+ .data          0x00008934        0x0 build/con.o
+
+.bss            0x00008940      0x240
+ *(COMMON)
+ *(.bss)
+ .bss           0x00008940        0x0 build/kernel.o
+ .bss           0x00008940      0x240 build/fs.o
+                0x00008940                FSDirTable
+                0x00008b40                sectorMap
+                0x00008b7f                drive
+ .bss           0x00008b80        0x0 build/vgac.o
+ .bss           0x00008b80        0x0 build/string.o
+ .bss           0x00008b80        0x0 build/con.o
+
+/DISCARD/
+ *(.eh_frame)
+ *(.comment)
+ *(.note.GNU-stack)
+LOAD build/kernel.o
+LOAD build/fs.o
+LOAD build/keyboard.o
+LOAD build/vga.o
+LOAD build/vgac.o
+LOAD build/power.o
+LOAD build/disk.o
+LOAD build/mem.o
+LOAD build/string.o
+LOAD build/con.o
+OUTPUT(build/kernel.bin binary)

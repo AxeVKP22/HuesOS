@@ -1,3 +1,5 @@
+#pragma once
+
 extern void setCursorPos(int pN, int row, int collumn);
 extern void getCursorPos(int* row, int* collumn);
 

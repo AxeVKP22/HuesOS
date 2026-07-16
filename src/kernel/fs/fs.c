@@ -3,6 +3,8 @@
 struct FSEntry FSDirTable[MAXFILES] = {0};
 uint8_t sectorMap[63] = {0};
 
+char drive;
+
 DAP dap = {
         .size = 16,
         .reserved = 0,
@@ -12,7 +14,7 @@ DAP dap = {
         .lba = 0
     };
 
-void initFS(char drive) {
+void initFS() {
     //check for existing FS header
     char FSHeader[2];
     dap.sectors = 1;
@@ -39,7 +41,7 @@ void initFS(char drive) {
     }
 }
 
-void loadFS(char drive) {
+void loadFS() {
     dap.lba = 9;
     readSectors(drive, &dap, 0);
     memcpyToBuff(FSDirTable, 0x0000, 0x9000, sizeof(FSDirTable));   //read sector 10 to 0000:9000 and cpy it to loadedDirTable;
@@ -50,7 +52,7 @@ void loadFS(char drive) {
     memcpyToBuff(sectorMap, 0x0000, 0x9000, sizeof(sectorMap));     //read sector 11 to 0000:9000 and cpy it to loadedSectorMap;
 }
                                                                     //and sector 11 must contain sectorMap
-void makeFS(char drive) {
+void makeFS() {
     uint8_t header[2] = {0xAF,0x22};
     char err;
 

@@ -1,7 +1,9 @@
-#include "disk.h"
-#include "mem.h"
-#include "types.h"
-#include "vga.h"
+#pragma once
+
+#include "sys/disk.h"
+#include "sys/mem.h"
+#include "type.h"
+#include "sys/vga.h"
 
 #define MAXFILES 32
 #define RESERVED 11
@@ -17,7 +19,9 @@ typedef struct FSEntry
 extern struct FSEntry FSDirTable[MAXFILES];
 extern uint8_t sectorMap[63]; //cuz readSectors/writeSectors func can access only first 63 sectors of a disk
 
-extern void initFS(char drive);
+extern char drive;
 
-extern void loadFS(char drive);
-extern void makeFS(char drive);
+extern void initFS();
+
+extern void loadFS();
+extern void makeFS();

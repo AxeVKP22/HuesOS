@@ -1,5 +1,8 @@
-#include "../include/keyboard.h"
-#include "../include/vga.h"
-#include "../include/power.h"
+#pragma once
+
+#include "../include/sys/keyboard.h"
+#include "../include/sys/vga.h"
+#include "../include/sys/power.h"
+#include "../include/string.h"
 
 extern void con();

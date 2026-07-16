@@ -8,4 +8,27 @@ SECTIONS
     {
         *(.text)
     }
+
+    .rodata :
+    {
+        *(.rodata)
+    }
+
+    .data :
+    {
+        *(.data)
+    }
+
+    .bss :
+    {
+        *(COMMON)
+        *(.bss)
+    }
+
+    /DISCARD/ :
+    {
+        *(.eh_frame)
+        *(.comment)
+        *(.note.GNU-stack)
+    }
 }

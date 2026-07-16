@@ -33,13 +33,13 @@ void con() {
 
     newLine();
     
-    if (cmpStrings("help", buffer, 4)) {
+    if (cmpstr("help", buffer) == 0) {
         printString("Available commands:\n\rclear - clears the screen\n\rreboot - reboots the system\n\rhelp - shows this message\n\r");
     }
-    else if (cmpStrings("reboot", buffer, 6)) {
+    else if (cmpstr("reboot", buffer) == 0) {
         reboot();
     }
-    else if (cmpStrings("clear", buffer, 5)) {
+    else if (cmpstr("clear", buffer) == 0) {
         clearScreen();
     }
     else {

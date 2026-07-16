@@ -1,6 +1,7 @@
 #pragma once
-#include "types.h"
 
+
+#include "../type.h"
 
 typedef struct {
     uint8_t size;
