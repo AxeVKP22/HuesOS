@@ -1,11 +1,16 @@
+bits 16
+
 global getDrive
 ;get drive device from dl register
 getDrive:
     push ebp
     mov ebp, esp
+    push bx
+    
+    mov bx, [ebp+8]
+    mov [bx], dl
 
-    mov [ebp+8], dl
-
+    pop bx
     pop ebp
     ret
 
@@ -13,18 +18,11 @@ global readSectors
 readSectors:
     push ebp
     mov ebp, esp
+    push si
 
-    mov ah, 02h
-    mov al, [ebp+8]
-    mov ch, 0         ;only if reading sectors 1-63
-    mov cl, [ebp+12]
-    mov dh, 0         ;only if reading sectors 1-63
-    mov dl, [ebp+16]
-
-    mov ax, [ebp+20]
-    mov es, ax
-    mov bx, [ebp+24]
-
+    mov ah, 42h
+    mov dl, [ebp+8]
+    mov si, [ebp+12]
     int 13h
     jc .err
 
@@ -32,9 +30,12 @@ readSectors:
     jmp .done
 
 .err:
+    mov bx, [ebp+16]
+    mov [bx], ah
     xor eax,eax
 
 .done:
+    pop si
     pop ebp
     ret
 
@@ -42,17 +43,13 @@ global writeSectors
 writeSectors:
     push ebp
     mov ebp, esp
+    push bx
+    push si
 
-    mov ah, 03h
-    mov al, [ebp+8]
-    mov ch, 0             ;only if writing sectors 1-63
-    mov cl, [ebp+12]
-    mov dh, 0             ;only if writing sectors 1-63
-    mov dl, [ebp+16]
-
-    mov ax, [ebp+20]
-    mov es, ax
-    mov bx, [ebp+24]
+    mov ah, 43h
+    mov al, 0x01
+    mov dl, [ebp+8]
+    mov si, [ebp+12]
 
     int 13h
     jc .err
@@ -61,9 +58,13 @@ writeSectors:
     jmp .done
 
 .err:
+    mov bx, [ebp+16]
+    mov [bx], ah
     xor eax,eax
 
 .done:
+    pop si
+    pop bx
     pop ebp
     ret
 

@@ -5,4 +5,5 @@ extern void printChar(char c);
 extern void printString(const char* string);
 extern void newLine();
 extern void clearScreen();
-extern void printOnCursor();
+
+extern void printHex(char hex);

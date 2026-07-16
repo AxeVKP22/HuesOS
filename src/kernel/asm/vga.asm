@@ -97,14 +97,3 @@ clearScreen:
     mov al, 0x03
     int 0x10
     ret
-
-global printOnCursor
-;this func is for console only
-printOnCursor:
-    mov ah, 09h
-    mov al, ' '
-    mov bh, 0
-    mov bl, 07h
-    mov cx, 1
-    int 10h
-    ret

@@ -1,15 +1,20 @@
 #include "../include/keyboard.h"
 #include "../include/vga.h"
 #include "../include/disk.h"
+#include "../include/mem.h"
+#include "../include/fs.h"
+#include "../include/types.h"
+
 #include "../bin/con.h"
 
 const char* kernelMsg = "HuesOS kernel v0.01, most unstable os ever\n\rAxeVKP22 2026\n\rtype help for command list\n\r";
 char drive = 0;
 
 void kmain(void) {
-    getDrive(&drive);
-    
     clearScreen();
+    getDrive(&drive);
+
+    initFS(drive);
     printString(kernelMsg);
     newLine();
     while (1) {

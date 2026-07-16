@@ -26,7 +26,7 @@ start:
 
     ; read sector 2
     mov ah, 0x02
-    mov al, 4          ; sectors to read
+    mov al, 6          ; sectors to read
     mov ch, 0          ; cylinder
     mov cl, 3          ; sector (starts at 1)
     mov dh, 0          ; head
@@ -94,5 +94,5 @@ dw 0xaa55
 
 ;ndisasm -b 16 -o 0x7C00 build/os.img
 ;qemu-system-i386 -drive format=raw,file=build/os.img
-;ndisasm -b 16 os.img 
+;ndisasm -b 16 build/os.img 
 ;dd if=/home/axe/gitProjects/wowos/build/os.img of=/dev/sda bs=4M status=progress conv=fsync
