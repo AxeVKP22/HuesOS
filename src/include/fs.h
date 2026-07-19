@@ -6,7 +6,7 @@
 #include "sys/vga.h"
 
 #define MAXFILES 32
-#define RESERVED 11
+#define RESERVED 21
 
 typedef struct FSEntry
 {

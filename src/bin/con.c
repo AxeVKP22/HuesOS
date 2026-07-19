@@ -33,8 +33,32 @@ void con() {
 
     newLine();
     
+    execCommmand(buffer);
+    return;
+}
+
+
+int execCommmand(const char* command) {
+    int count = 0;
+    char buffer[32];
+    char args[32];
+    while (command[count] != ' ' && command[count] != '\0')
+    {
+        buffer[count] = command[count];
+        count++;
+    }
+    buffer[count] = '\0';
+    if (command[count] == ' ') {
+       count++; 
+    }
+    int i = 0;
+    while (command[count] != '\0' && i < sizeof(args) - 1) {
+        args[i++] = command[count++];
+    }
+    args[i] = '\0';
+    
     if (cmpstr("help", buffer) == 0) {
-        printString("Available commands:\n\rclear - clears the screen\n\rreboot - reboots the system\n\rhelp - shows this message\n\r");
+        printString("Available commands:\n\rclear - clears the screen\n\rreboot - reboots the system\n\rhelp - shows this message\n\rddump [n] - prints data stored in sector n\n\r");
     }
     else if (cmpstr("reboot", buffer) == 0) {
         reboot();
@@ -42,9 +66,19 @@ void con() {
     else if (cmpstr("clear", buffer) == 0) {
         clearScreen();
     }
+    else if (cmpstr("ddump", buffer) == 0) {
+        int a = 0;
+        int j = 0;
+
+        while (args[j] >= '0' && args[j] <= '9') {
+            a = a * 10 + (args[j] - '0');
+            j++;
+        }
+        ddump(a);
+    }
     else {
         printString(buffer);
         printString(" : Command not found\n\r");
     }
-    return;
+    return 0;
 }

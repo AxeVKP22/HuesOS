@@ -26,7 +26,7 @@ start:
 
     ; read sector 2
     mov ah, 0x02
-    mov al, 6          ; sectors to read
+    mov al, 8          ; sectors to read
     mov ch, 0          ; cylinder
     mov cl, 3          ; sector (starts at 1)
     mov dh, 0          ; head

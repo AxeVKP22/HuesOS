@@ -5,4 +5,7 @@
 #include "../include/sys/power.h"
 #include "../include/string.h"
 
+#include "ddump.h"
+
 extern void con();
+extern int execCommmand(const char* command);

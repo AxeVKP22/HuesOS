@@ -20,7 +20,11 @@ Discarded input sections
  .comment       0x00000000       0x20 build/con.o
  .note.GNU-stack
                 0x00000000        0x0 build/con.o
- .eh_frame      0x00000000       0x38 build/con.o
+ .eh_frame      0x00000000       0x58 build/con.o
+ .comment       0x00000000       0x20 build/ddump.o
+ .note.GNU-stack
+                0x00000000        0x0 build/ddump.o
+ .eh_frame      0x00000000       0x38 build/ddump.o
 
 Memory Configuration
 
@@ -31,7 +35,7 @@ Linker script and memory map
 
                 0x00007e00                        . = 0x7e00
 
-.text           0x00007e00      0x940
+.text           0x00007e00      0xbfe
  *(.text)
  .text          0x00007e00       0x4b build/kernel.o
                 0x00007e00                kmain
@@ -67,38 +71,43 @@ Linker script and memory map
  .text          0x0000841c       0xe9 build/string.o
                 0x0000841c                cmpstr
                 0x000084cc                length
- .text          0x00008505      0x23b build/con.o
+ .text          0x00008505      0x415 build/con.o
                 0x00008505                con
+                0x000086a3                execCommmand
+ .text          0x0000891a       0xe4 build/ddump.o
+                0x0000891a                ddump
 
-.rodata         0x00008740      0x1dd
+.rodata         0x00008a00      0x20f
  *(.rodata)
- .rodata        0x00008740       0x5a build/kernel.o
- *fill*         0x0000879a        0x2 
- .rodata        0x0000879c       0xea build/fs.o
- *fill*         0x00008886        0x2 
- .rodata        0x00008888       0x95 build/con.o
+ .rodata        0x00008a00       0x5a build/kernel.o
+ *fill*         0x00008a5a        0x2 
+ .rodata        0x00008a5c       0xea build/fs.o
+ *fill*         0x00008b46        0x2 
+ .rodata        0x00008b48       0xc7 build/con.o
 
-.data           0x00008920       0x14
+.data           0x00008c10       0x14
  *(.data)
- .data          0x00008920        0x4 build/kernel.o
-                0x00008920                kernelMsg
- .data          0x00008924       0x10 build/fs.o
-                0x00008924                dap
- .data          0x00008934        0x0 build/vgac.o
- .data          0x00008934        0x0 build/string.o
- .data          0x00008934        0x0 build/con.o
+ .data          0x00008c10        0x4 build/kernel.o
+                0x00008c10                kernelMsg
+ .data          0x00008c14       0x10 build/fs.o
+                0x00008c14                dap
+ .data          0x00008c24        0x0 build/vgac.o
+ .data          0x00008c24        0x0 build/string.o
+ .data          0x00008c24        0x0 build/con.o
+ .data          0x00008c24        0x0 build/ddump.o
 
-.bss            0x00008940      0x240
+.bss            0x00008c40      0x240
  *(COMMON)
  *(.bss)
- .bss           0x00008940        0x0 build/kernel.o
- .bss           0x00008940      0x240 build/fs.o
-                0x00008940                FSDirTable
-                0x00008b40                sectorMap
-                0x00008b7f                drive
- .bss           0x00008b80        0x0 build/vgac.o
- .bss           0x00008b80        0x0 build/string.o
- .bss           0x00008b80        0x0 build/con.o
+ .bss           0x00008c40        0x0 build/kernel.o
+ .bss           0x00008c40      0x240 build/fs.o
+                0x00008c40                FSDirTable
+                0x00008e40                sectorMap
+                0x00008e7f                drive
+ .bss           0x00008e80        0x0 build/vgac.o
+ .bss           0x00008e80        0x0 build/string.o
+ .bss           0x00008e80        0x0 build/con.o
+ .bss           0x00008e80        0x0 build/ddump.o
 
 /DISCARD/
  *(.eh_frame)
@@ -114,4 +123,5 @@ LOAD build/disk.o
 LOAD build/mem.o
 LOAD build/string.o
 LOAD build/con.o
+LOAD build/ddump.o
 OUTPUT(build/kernel.bin binary)

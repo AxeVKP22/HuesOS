@@ -42,14 +42,14 @@ void initFS() {
 }
 
 void loadFS() {
-    dap.lba = 9;
+    dap.lba = 20;
     readSectors(drive, &dap, 0);
-    memcpyToBuff(FSDirTable, 0x0000, 0x9000, sizeof(FSDirTable));   //read sector 10 to 0000:9000 and cpy it to loadedDirTable;
+    memcpyToBuff(FSDirTable, 0x0000, 0x9000, sizeof(FSDirTable));   //read sector 20 to 0000:9000 and cpy it to loadedDirTable;
                                                                     //sector 10 must contain dirTable
-    dap.lba = 10;
+    dap.lba = 21;
                                                                     //maybe later i add err log but now i dont have issues with this
     readSectors(drive, &dap, 0);
-    memcpyToBuff(sectorMap, 0x0000, 0x9000, sizeof(sectorMap));     //read sector 11 to 0000:9000 and cpy it to loadedSectorMap;
+    memcpyToBuff(sectorMap, 0x0000, 0x9000, sizeof(sectorMap));     //read sector 21 to 0000:9000 and cpy it to loadedSectorMap;
 }
                                                                     //and sector 11 must contain sectorMap
 void makeFS() {
@@ -67,7 +67,7 @@ void makeFS() {
 
     // make FS structures on disk
     memcpyToRam(&FSDirTable, 0x0000, 0x9000, sizeof(FSDirTable));
-    dap.lba = 9;
+    dap.lba = 20;
     if (writeSectors(drive, &dap, &err) == 0) {
         printString("err in loading FS dirTable on disk\n\r");
         printHex(err);
@@ -77,14 +77,14 @@ void makeFS() {
     for (int i = 0;i<RESERVED;i++) {
         sectorMap[i] = 1; //reserve sectors 0-11
         //1-bootloader
-        //2-6 kernel 
-        //7-9 reserved for kernel
-        //10 dirTable
-        //11 sectorMap
+        //2-7 kernel 
+        //8-19 reserved for kernel
+        //20 dirTable
+        //21 sectorMap
     }
 
     memcpyToRam(&sectorMap, 0x0000, 0x9000, sizeof(sectorMap));
-    dap.lba = 10;
+    dap.lba = 21;
     if (writeSectors(drive, &dap, &err) == 0) {
         printString("err in loading FS sectorMap on disk\n\r");
         printHex(err);
