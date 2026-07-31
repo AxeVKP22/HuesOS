@@ -4,29 +4,31 @@ bits 16
 start:
     mov [boot_drive], dl
 
+    ; set video mode 03h
+    mov ax, 0x0003
+    int 0x10
+
     cli
     xor ax, ax
     mov ds, ax
     mov es, ax
     mov ss, ax
-    mov sp, 0x7c00
+    mov sp, 0x7000
+
+    xor bx, bx
+    xor cx, cx
+    xor dx, dx
+    xor si, si
+    xor di, di
+    xor bp, bp
     sti
-
-    ; set video mode 03h
-    mov ax, 0x0003
-    int 0x10
-
-    ; print S
-    mov ah, 0x0e
-    mov al, 'S'     ; this code is so unstable that without printring s kernel will not load :/
-    int 0x10
 
     mov al, [boot_drive] ; for some reason, without this kernel will not load
     call print_hex       ; and this too
 
     ; read sector 2
     mov ah, 0x02
-    mov al, 8          ; sectors to read
+    mov al, 10          ; sectors to read
     mov ch, 0          ; cylinder
     mov cl, 3          ; sector (starts at 1)
     mov dh, 0          ; head
@@ -34,7 +36,7 @@ start:
 
     xor bx, bx
     mov es, bx
-    mov bx, 0x7e00     ; load address
+    mov bx, 0x4500     ; load address
 
     int 0x13
     jc disk_error
@@ -42,7 +44,7 @@ start:
     ; success
     xchg bx,bx
     mov dl, [boot_drive]
-    jmp 0x0000:0x7e00
+    jmp 0x0000:0x4500
 
 disk_error:
     mov [error_code], ah
