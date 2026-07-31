@@ -26,9 +26,9 @@ start:
     mov al, [boot_drive] ; for some reason, without this kernel will not load
     call print_hex       ; and this too
 
-    ; read sector 2
+    ; read kernel 
     mov ah, 0x02
-    mov al, 10          ; sectors to read
+    mov al, 6          ; sectors to read
     mov ch, 0          ; cylinder
     mov cl, 3          ; sector (starts at 1)
     mov dh, 0          ; head

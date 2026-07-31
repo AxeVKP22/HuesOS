@@ -3,15 +3,15 @@ set -e
 
 nasm -f bin src/boot/boot.asm -o build/boot.bin
 
-gcc -m16 -ffreestanding -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/kernel/kernel.c -o build/kernel.o
-gcc -m16 -ffreestanding -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/kernel/fs/fs.c -o build/fs.o
-gcc -m16 -ffreestanding -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/kernel/mem/fd.c -o build/fd.o
+gcc -m16 -ffreestanding -Os -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/kernel/kernel.c -o build/kernel.o
+gcc -m16 -ffreestanding -Os -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/kernel/fs/fs.c -o build/fs.o
+gcc -m16 -ffreestanding -Os -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/kernel/mem/fd.c -o build/fd.o
 
-gcc -m16 -ffreestanding -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/lib/vga.c -o build/vgac.o
-gcc -m16 -ffreestanding -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/lib/string.c -o build/string.o
+gcc -m16 -ffreestanding -Os -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/lib/vga.c -o build/vgac.o
+gcc -m16 -ffreestanding -Os -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/lib/string.c -o build/string.o
 
-gcc -m16 -ffreestanding -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/bin/con.c -o build/con.o
-gcc -m16 -ffreestanding -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/bin/ddump.c -o build/ddump.o
+gcc -m16 -ffreestanding -Os -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/bin/con.c -o build/con.o
+gcc -m16 -ffreestanding -Os -fno-pie -fno-stack-protector -c -mno-sse -mno-sse2 -mno-mmx src/bin/ddump.c -o build/ddump.o
 
 nasm -f elf32 src/kernel/asm/vga.asm -o build/vga.o
 nasm -f elf32 src/kernel/asm/keyboard.asm -o build/keyboard.o

@@ -24,8 +24,5 @@ extern char drive;
 
 extern void initFS();
 
-extern void loadFS();
-extern void makeFS();
-
 extern int open(const char* filename);
 extern int new(const char* filename);

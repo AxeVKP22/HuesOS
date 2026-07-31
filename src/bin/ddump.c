@@ -17,7 +17,6 @@ void ddump(int sector) {
     memcpyToBuff(buffer, 0x0000, 0x9000, 512);
     for (int i = 0; i<sizeof(buffer);i++) {
         printHex(buffer[i]);
-        //printString("  ");
     }
     newLine();
 }
