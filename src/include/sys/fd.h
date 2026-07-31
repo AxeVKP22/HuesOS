@@ -1,15 +1,19 @@
 #include "../type.h"
+#include "disk.h"
 
-typedef struct descriptor
+#define MAXFD 32
+
+#define SEGMENT 0x0000
+#define STARTINGADDR 0x0500
+#define SECTOR 0x200
+
+typedef struct fileDescriptor
 {
     uint16_t segment;
-    uint16_t offset;
+    uint16_t offset;            //addr where file is lod
+} fileDescriptor;
 
-    uint16_t entrySize;      //size of the entry, for now max size would be a 512 bytes
-} descriptor;
-
-extern struct descriptor fdTable[32];
-extern int fdCount;
-
-extern int newFd(descriptor fd);
+extern int newFd(const struct fileDescriptor* fd);
 extern void closeFd(int fd);
+
+extern uint16_t calcFdOffset();

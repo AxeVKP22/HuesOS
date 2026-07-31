@@ -1,17 +1,29 @@
 #include "../../include/sys/fd.h"
 
-struct descriptor fdTable[32] = {0};
-int fdCount = 0;
+static struct fileDescriptor fdTable[MAXFD] = {0};
+static uint8_t fdMap[MAXFD] = {0};
 
-int newFd(descriptor fd) {
-    int curFd = fdCount;
-    fdTable[curFd] = fd;
+static uint8_t fdCount = 0;
+
+int newFd(const struct fileDescriptor* fd) {
+    if (fdCount >= MAXFD)
+        return -1;
+
+    int currFd = fdCount;
+    fdTable[fdCount] = *fd;
     fdCount++;
-    return curFd;
-    
+    return currFd;
+
 }
 void closeFd(int fd) {
-    descriptor d;
-    fdTable[fd] = d;
-    fdCount--;
+}
+
+uint16_t calcFdOffset() {
+    for (int i = 0;i<MAXFD;i++) {
+        if (fdMap[i] == 0x00) {
+            fdMap[i] = 0x01;
+            return STARTINGADDR + SECTOR * i;
+        }
+    }
+   return 0xFFFF; //err
 }

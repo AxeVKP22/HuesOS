@@ -4,7 +4,7 @@ void con() {
     int counter = 0;
     char buffer[64] = {0};
 
-    printChar('>');
+    printChar('$');
 
     while (1) {
         char key,scancode;

@@ -94,34 +94,40 @@ void initFS() {
 }
 
 int open(const char* filename) {
-    int curFile;
 
     for (int i = 0;i<MAXFILES;i++) {
-        if (FSDirTable[i].entryName == filename) {
-            uint16_t segment = 0x0000; //hardcoded for now;
-            uint16_t offset = 0x0500;
+        if (cmpstr(FSDirTable[i].entryName, filename) == 0) {
+
+            uint16_t offset = calcFdOffset();
+
+            if (offset == 0xFFFF) {
+                return -1;
+            }
 
             DAP dap = {
                 .size = 16,
                 .reserved = 0,
                 .sectors = 1,
-                .segment = segment,
+                .segment = 0x0000,
                 .offset = offset,
                 .lba = FSDirTable[i].entryLocation
             };
 
-            readSectors(drive, &dap, 0);
+            if (readSectors(drive, &dap, 0) == 0) {
+                return -1;
+            }
 
-            descriptor fd = {
-                .entrySize = FSDirTable[i].entrySize,
-                .segment = segment,
-                .offset = offset
-                
+            fileDescriptor fd = {
+                .offset = offset,
+                .segment = 0x0000
             };
-            return newFd(fd);
+            
+            return newFd(&fd);
+
         }
         else {
 
         }
     }
+    return -1;
 }
