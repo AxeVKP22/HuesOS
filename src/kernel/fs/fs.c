@@ -91,3 +91,36 @@ void makeFS() {
         newLine();
     }
 }
+
+int open(const char* filename) {
+    int curFile;
+
+    for (int i = 0;i<MAXFILES;i++) {
+        if (FSDirTable[i].entryName == filename) {
+            uint16_t segment = 0x0000; //hardcoded for now;
+            uint16_t offset = 0x0500;
+
+            DAP dap = {
+                .size = 16,
+                .reserved = 0,
+                .sectors = 1,
+                .segment = segment,
+                .offset = offset,
+                .lba = FSDirTable[i].entryLocation
+            };
+
+            readSectors(drive, &dap, 0);
+
+            descriptor fd = {
+                .entrySize = FSDirTable[i].entrySize,
+                .segment = segment,
+                .offset = offset
+                
+            };
+            return newFd(fd);
+        }
+        else {
+
+        }
+    }
+}

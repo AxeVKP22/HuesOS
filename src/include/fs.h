@@ -4,6 +4,7 @@
 #include "sys/mem.h"
 #include "type.h"
 #include "sys/vga.h"
+#include "sys/fd.h"
 
 #define MAXFILES 32
 #define RESERVED 21
@@ -25,3 +26,6 @@ extern void initFS();
 
 extern void loadFS();
 extern void makeFS();
+
+extern int open(const char* filename);
+extern int new(const char* filename);
