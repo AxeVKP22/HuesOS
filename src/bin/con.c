@@ -37,7 +37,6 @@ void con() {
     return;
 }
 
-
 int execCommmand(const char* command) {
     int count = 0;
     char buffer[32];
@@ -58,7 +57,7 @@ int execCommmand(const char* command) {
     args[i] = '\0';
     
     if (cmpstr("help", buffer) == 0) {
-        printString("Available commands:\n\rclear - clears the screen\n\rreboot - reboots the system\n\rhelp - shows this message\n\rddump [n] - prints data stored in sector n\n\r");
+        printString("Available commands:\n\rddump [n] - prints data stored in sector n\n\rclear - clears the screen\n\rreboot - reboots the system\n\rhelp - shows this message\n\r");
     }
     else if (cmpstr("reboot", buffer) == 0) {
         reboot();

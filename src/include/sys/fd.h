@@ -9,10 +9,12 @@
 
 typedef struct fileDescriptor
 {
+    uint8_t used; //0x00 no; 0x01 yes
     uint16_t segment;
     uint16_t offset;            //addr where file is lod
 } fileDescriptor;
 
+extern fileDescriptor getFd(int fd);
 extern int newFd(const struct fileDescriptor* fd);
 extern void closeFd(int fd);
 

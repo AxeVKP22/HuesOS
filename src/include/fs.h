@@ -8,12 +8,12 @@
 #include "string.h"
 
 #define MAXFILES 32
-#define RESERVED 21
+#define RESERVED 22
 
 typedef struct FSEntry
 {
-    char entryName[8];
-    char entryExtension[4];
+    uint8_t entryUsed;  //0x00 no, 0x01 yes;
+    char entryName[11];
     uint16_t entryLocation;  //n of sector where is entry is stored
     uint16_t entrySize;      //size of the entry, for now max size would be a 512 bytes
 } FSEntry;

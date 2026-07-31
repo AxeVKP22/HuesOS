@@ -6,14 +6,35 @@ uint8_t sectorMap[63] = {0};
 char drive;
 
 DAP dap = {
-        .size = 16,
-        .reserved = 0,
-        .sectors = 0,
-        .segment = 0x0000,
-        .offset = 0x9000,
-        .lba = 0
-    };
+    .size = 16,
+    .reserved = 0,
+    .sectors = 0,
+    .segment = 0x0000,
+    .offset = 0x9000,
+    .lba = 0
+};
 
+static void writeFSDirTable() {
+    char err;
+    memcpyToRam(&FSDirTable, 0x0000, 0x9000, sizeof(FSDirTable));
+    dap.lba = 20;
+    if (writeSectors(drive, &dap, &err) == 0) {
+        printString("err in loading FS dirTable on disk\n\r");
+        printHex(err);
+        newLine();
+    }
+}
+
+static void writeSectorMap() {
+    char err;
+    memcpyToRam(&sectorMap, 0x0000, 0x9000, sizeof(sectorMap));
+    dap.lba = 21;
+    if (writeSectors(drive, &dap, &err) == 0) {
+        printString("err in loading FS sectorMap on disk\n\r");
+        printHex(err);
+        newLine();
+    }
+}
 
 static void loadFS() {
     dap.lba = 20;
@@ -40,13 +61,7 @@ static void makeFS() {
     }
 
     // make FS structures on disk
-    memcpyToRam(&FSDirTable, 0x0000, 0x9000, sizeof(FSDirTable));
-    dap.lba = 20;
-    if (writeSectors(drive, &dap, &err) == 0) {
-        printString("err in loading FS dirTable on disk\n\r");
-        printHex(err);
-        newLine();
-    }
+    writeFSDirTable();
 
     for (int i = 0;i<RESERVED;i++) {
         sectorMap[i] = 1; //reserve sectors 0-11
@@ -57,13 +72,7 @@ static void makeFS() {
         //21 sectorMap
     }
 
-    memcpyToRam(&sectorMap, 0x0000, 0x9000, sizeof(sectorMap));
-    dap.lba = 21;
-    if (writeSectors(drive, &dap, &err) == 0) {
-        printString("err in loading FS sectorMap on disk\n\r");
-        printHex(err);
-        newLine();
-    }
+    writeSectorMap();
 }
 
 void initFS() {
@@ -94,7 +103,6 @@ void initFS() {
 }
 
 int open(const char* filename) {
-
     for (int i = 0;i<MAXFILES;i++) {
         if (cmpstr(FSDirTable[i].entryName, filename) == 0) {
 
@@ -123,11 +131,60 @@ int open(const char* filename) {
             };
             
             return newFd(&fd);
-
-        }
-        else {
-
         }
     }
     return -1;
+}
+
+int new(const char* filename) {
+    int dirTableIndex = -1;
+
+    for (int i = 0;i<MAXFILES;i++) {
+        if (FSDirTable[i].entryUsed == 0x00) {
+            dirTableIndex = i;
+            break;
+        }
+    }
+
+    if (dirTableIndex == -1) {
+        newLine();
+        printString("Too many files");
+        return -1;
+    }
+
+    int sector = -1;
+
+    for (int i = 0;i<sizeof(sectorMap);i++) {
+        if (sectorMap[i] == 0x00) {
+            sector = i;
+            sectorMap[i] = 0x01;
+            break;
+        }
+    }
+    if (sector == -1) {
+        newLine();
+        printString("Disk full");
+        return -1;
+    }
+
+    writeSectorMap();
+
+    FSEntry entry = {
+        .entryUsed = 0x01,
+        .entryLocation = sector,
+        .entrySize = 0
+    };
+
+    for (int i = 0; i < 11; i++) {
+        entry.entryName[i] = filename[i];
+        if (filename[i] == '\0') {
+            break;
+        }
+    }
+
+    FSDirTable[dirTableIndex] = entry;
+
+    writeFSDirTable();
+
+    return dirTableIndex;
 }
