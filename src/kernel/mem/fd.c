@@ -7,7 +7,7 @@ fileDescriptor getFd(int fd) {
     return fdTable[fd];
 }
 
-int newFd(const struct fileDescriptor* fd) {
+int allocateFd(const struct fileDescriptor* fd) {
 
     int retFd = -1;
 
@@ -21,11 +21,19 @@ int newFd(const struct fileDescriptor* fd) {
     return -1;
 }
 
-void closeFd(int fd) {
-    
+void freeFd(int fd) {
+    fileDescriptor emptyFd = {
+        .used = 0x00,
+        .segment = 0x0000,
+        .offset = 0x0000
+    };
+
+    int fdMapIndex = (fdTable[fd].offset - STARTINGADDR) / SECTOR;
+    fdMap[fdMapIndex] = 0x00;
+    fdTable[fd] = emptyFd;
 }
 
-uint16_t calcFdOffset() {
+uint16_t calcOffset() {
     for (int i = 0;i<MAXFD;i++) {
         if (fdMap[i] == 0x00) {
             fdMap[i] = 0x01;

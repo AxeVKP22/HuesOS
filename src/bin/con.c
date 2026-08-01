@@ -75,6 +75,20 @@ int execCommmand(const char* command) {
         }
         ddump(a);
     }
+
+    else if (cmpstr("test", buffer) == 0) {
+        new("test");
+        int fd = open("test", O_RDWR | O_SAVE);
+        write(fd, "Hello, World!", 13);
+        close(fd);
+    }
+    else if (cmpstr("open", buffer) == 0) {
+        int fd = open(args, O_RDWR | O_SAVE);
+        if (fd != -1) {
+            printString("File opened successfully\n\r");
+        }
+    }
+
     else {
         printString(buffer);
         printString(" : Command not found\n\r");

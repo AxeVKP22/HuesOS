@@ -102,11 +102,13 @@ void initFS() {
     }
 }
 
-int open(const char* filename) {
+
+
+int open(const char* filename, uint8_t flags) {
     for (int i = 0;i<MAXFILES;i++) {
         if (cmpstr(FSDirTable[i].entryName, filename) == 0) {
 
-            uint16_t offset = calcFdOffset();
+            uint16_t offset = calcOffset();
 
             if (offset == 0xFFFF) {
                 return -1;
@@ -127,10 +129,13 @@ int open(const char* filename) {
 
             fileDescriptor fd = {
                 .offset = offset,
-                .segment = 0x0000
+                .segment = 0x0000,
+                .flags = flags,
+                .used = 0x01,
+                .fileLocation = i
             };
             
-            return newFd(&fd);
+            return allocateFd(&fd);
         }
     }
     return -1;
@@ -187,4 +192,52 @@ int new(const char* filename) {
     writeFSDirTable();
 
     return dirTableIndex;
+}
+
+
+int close(int fd) {
+    fileDescriptor cFd = getFd(fd);
+    if (cFd.flags & O_SAVE) {
+        DAP dap = {
+            .size = 16,
+            .reserved = 0,
+            .sectors = 1,
+            .segment = 0x0000,
+            .offset = cFd.offset,
+            .lba = FSDirTable[cFd.fileLocation].entryLocation
+        };
+
+        char err;
+        if (writeSectors(drive, &dap, &err) == 0) {
+            printString("Error writing file to disk\n\r");
+            printHex(err);
+            newLine();
+            return -1;
+        }
+    }
+
+    freeFd(fd);
+    return 0;
+}
+
+
+int write(int fd, void* buffer, uint16_t size) {
+    fileDescriptor wFd = getFd(fd);
+
+    if (!(wFd.flags & O_WRITE)) {
+        return -1;
+    }
+    memcpyToRam(buffer, wFd.segment, wFd.offset, size);
+    return size;
+}
+
+
+int read(int fd, void* buffer, uint16_t size) {
+    fileDescriptor rFd = getFd(fd);
+
+    if (!(rFd.flags & O_READ)) {
+        return -1;
+    }
+    memcpyToBuff(buffer, rFd.segment, rFd.offset, size);
+    return size;
 }

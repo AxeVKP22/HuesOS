@@ -10,6 +10,11 @@
 #define MAXFILES 32
 #define RESERVED 22
 
+#define O_READ 0x01
+#define O_WRITE 0x02
+#define O_RDWR (O_READ | O_WRITE)
+#define O_SAVE 0x04
+
 typedef struct FSEntry
 {
     uint8_t entryUsed;  //0x00 no, 0x01 yes;
@@ -25,5 +30,10 @@ extern char drive;
 
 extern void initFS();
 
-extern int open(const char* filename);
+extern int open(const char* filename, uint8_t flags);
 extern int new(const char* filename);
+
+extern int close(int fd);
+
+extern int write(int fd, void* buffer, uint16_t size);
+extern int read(int fd, void* buffer, uint16_t size);

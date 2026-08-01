@@ -4,6 +4,7 @@
 #include "../include/sys/vga.h"
 #include "../include/sys/power.h"
 #include "../include/string.h"
+#include "../include/fs.h"
 
 #include "ddump.h"
 
