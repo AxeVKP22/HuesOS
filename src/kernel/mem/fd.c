@@ -28,7 +28,7 @@ void freeFd(int fd) {
         .offset = 0x0000
     };
 
-    int fdMapIndex = (fdTable[fd].offset - STARTINGADDR) / SECTOR;
+    int fdMapIndex = (fdTable[fd].offset - STARTINGADDR) / SECTORSIZE;
     fdMap[fdMapIndex] = 0x00;
     fdTable[fd] = emptyFd;
 }
@@ -37,7 +37,7 @@ uint16_t calcOffset() {
     for (int i = 0;i<MAXFD;i++) {
         if (fdMap[i] == 0x00) {
             fdMap[i] = 0x01;
-            return STARTINGADDR + SECTOR * i;
+            return STARTINGADDR + SECTORSIZE * i;
         }
     }
    return 0xFFFF; //err

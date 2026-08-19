@@ -57,7 +57,7 @@ int execCommmand(const char* command) {
     args[i] = '\0';
     
     if (cmpstr("help", buffer) == 0) {
-        printString("Available commands:\n\rddump [n] - prints data stored in sector n\n\rclear - clears the screen\n\rreboot - reboots the system\n\rhelp - shows this message\n\r");
+        printString("Available commands:\n\rddump [n] - prints data stored in sector n\n\rtouch [filename] - creates a new file\n\ropen [filename] - opens an existing file\n\rclear - clears the screen\n\rreboot - reboots the system\n\rhelp - shows this message\n\r");
     }
     else if (cmpstr("reboot", buffer) == 0) {
         reboot();
@@ -76,14 +76,15 @@ int execCommmand(const char* command) {
         ddump(a);
     }
 
-    else if (cmpstr("test", buffer) == 0) {
-        new("test");
-        int fd = open("test", O_RDWR | O_SAVE);
-        write(fd, "Hello, World!", 13);
-        close(fd);
+    else if (cmpstr("touch", buffer) == 0) {
+        int fd = sysNew(args);
+        if (fd != -1) {
+            printString("File created successfully\n\r");
+        }
     }
+
     else if (cmpstr("open", buffer) == 0) {
-        int fd = open(args, O_RDWR | O_SAVE);
+        int fd = sysOpen(args, O_RDWR | O_SAVE);
         if (fd != -1) {
             printString("File opened successfully\n\r");
         }

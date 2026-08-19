@@ -1,4 +1,4 @@
-#include "../../include/fs.h"
+#include "../include/fs.h"
 
 struct FSEntry FSDirTable[MAXFILES] = {0};
 uint8_t sectorMap[63] = {0};
@@ -103,8 +103,7 @@ void initFS() {
 }
 
 
-
-int open(const char* filename, uint8_t flags) {
+int sysOpen(const char* filename, uint8_t flags) {
     for (int i = 0;i<MAXFILES;i++) {
         if (cmpstr(FSDirTable[i].entryName, filename) == 0) {
 
@@ -141,7 +140,7 @@ int open(const char* filename, uint8_t flags) {
     return -1;
 }
 
-int new(const char* filename) {
+int sysNew(const char* filename) {
     int dirTableIndex = -1;
 
     for (int i = 0;i<MAXFILES;i++) {
@@ -195,7 +194,7 @@ int new(const char* filename) {
 }
 
 
-int close(int fd) {
+int sysClose(int fd) {
     fileDescriptor cFd = getFd(fd);
     if (cFd.flags & O_SAVE) {
         DAP dap = {
@@ -221,7 +220,7 @@ int close(int fd) {
 }
 
 
-int write(int fd, void* buffer, uint16_t size) {
+int sysWrite(int fd, void* buffer, uint16_t size) {
     fileDescriptor wFd = getFd(fd);
 
     if (!(wFd.flags & O_WRITE)) {
@@ -231,8 +230,7 @@ int write(int fd, void* buffer, uint16_t size) {
     return size;
 }
 
-
-int read(int fd, void* buffer, uint16_t size) {
+int sysRead(int fd, void* buffer, uint16_t size) {
     fileDescriptor rFd = getFd(fd);
 
     if (!(rFd.flags & O_READ)) {

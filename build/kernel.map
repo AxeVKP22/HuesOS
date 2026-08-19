@@ -39,23 +39,23 @@ Linker script and memory map
 
                 0x00004500                        . = 0x4500
 
-.text           0x00004500      0xd9a
+.text           0x00004500      0xdfa
  *(.text)
- .text          0x00004500       0x44 build/kernel.o
+ .text          0x00004500       0x4a build/kernel.o
                 0x00004500                kmain
- .text          0x00004544       0xf8 build/fd.o
-                0x00004544                getFd
-                0x00004578                allocateFd
-                0x000045c6                freeFd
-                0x00004610                calcOffset
- .text          0x0000463c      0x6bb build/fs.o
-                0x0000474f                initFS
-                0x00004952                open
-                0x00004a40                new
-                0x00004b43                close
-                0x00004c1f                write
-                0x00004c8b                read
- *fill*         0x00004cf7        0x9 
+ .text          0x0000454a       0xf8 build/fd.o
+                0x0000454a                getFd
+                0x0000457e                allocateFd
+                0x000045cc                freeFd
+                0x00004616                calcOffset
+ .text          0x00004642      0x6bb build/fs.o
+                0x00004755                initFS
+                0x00004958                sysOpen
+                0x00004a46                sysNew
+                0x00004b49                sysClose
+                0x00004c25                sysWrite
+                0x00004c91                sysRead
+ *fill*         0x00004cfd        0x3 
  .text          0x00004d00       0x1a build/keyboard.o
                 0x00004d00                readKey
  *fill*         0x00004d1a        0x6 
@@ -80,56 +80,59 @@ Linker script and memory map
  .text          0x00004e80       0x4c build/mem.o
                 0x00004e80                memcpyToRam
                 0x00004ea5                memcpyToBuff
- .text          0x00004ecc       0x5b build/string.o
-                0x00004ecc                cmpstr
-                0x00004f0b                length
- .text          0x00004f27      0x2bc build/con.o
-                0x00004f27                execCommmand
-                0x00005112                con
- .text          0x000051e3       0xb7 build/ddump.o
-                0x000051e3                ddump
+ *fill*         0x00004ecc        0x4 
+ .text          0x00004ed0       0x7f build/syscall.o
+                0x00004ed0                syscallInit
+ .text          0x00004f4f       0x5b build/string.o
+                0x00004f4f                cmpstr
+                0x00004f8e                length
+ .text          0x00004faa      0x299 build/con.o
+                0x00004faa                execCommmand
+                0x00005172                con
+ .text          0x00005243       0xb7 build/ddump.o
+                0x00005243                ddump
 
-.rodata         0x0000529c       0x10
+.rodata         0x000052fc       0x10
  *(.rodata)
- .rodata        0x0000529c       0x10 build/ddump.o
+ .rodata        0x000052fc       0x10 build/ddump.o
 
-.rodata.str1.1  0x000052ac      0x27c
+.rodata.str1.1  0x0000530c      0x2dc
  .rodata.str1.1
-                0x000052ac       0x5a build/kernel.o
+                0x0000530c       0x5a build/kernel.o
  .rodata.str1.1
-                0x00005306      0x11a build/fs.o
+                0x00005366      0x11a build/fs.o
  .rodata.str1.1
-                0x00005420       0x11 build/vgac.o
+                0x00005480       0x11 build/vgac.o
  .rodata.str1.1
-                0x00005431       0xf7 build/con.o
+                0x00005491      0x157 build/con.o
 
-.data           0x00005528       0x14
+.data           0x000055e8       0x14
  *(.data)
- .data          0x00005528        0x4 build/kernel.o
-                0x00005528                kernelMsg
- .data          0x0000552c        0x0 build/fd.o
- .data          0x0000552c       0x10 build/fs.o
-                0x0000552c                dap
- .data          0x0000553c        0x0 build/vgac.o
- .data          0x0000553c        0x0 build/string.o
- .data          0x0000553c        0x0 build/con.o
- .data          0x0000553c        0x0 build/ddump.o
+ .data          0x000055e8        0x4 build/kernel.o
+                0x000055e8                kernelMsg
+ .data          0x000055ec        0x0 build/fd.o
+ .data          0x000055ec       0x10 build/fs.o
+                0x000055ec                dap
+ .data          0x000055fc        0x0 build/vgac.o
+ .data          0x000055fc        0x0 build/string.o
+ .data          0x000055fc        0x0 build/con.o
+ .data          0x000055fc        0x0 build/ddump.o
 
-.bss            0x00005540      0x380
+.bss            0x00005600      0x380
  *(COMMON)
  *(.bss)
- .bss           0x00005540        0x0 build/kernel.o
- .bss           0x00005540      0x120 build/fd.o
-                0x00005540                fdMap
-                0x00005560                fdTable
- .bss           0x00005660      0x260 build/fs.o
-                0x00005660                drive
-                0x00005680                sectorMap
-                0x000056c0                FSDirTable
- .bss           0x000058c0        0x0 build/vgac.o
- .bss           0x000058c0        0x0 build/string.o
- .bss           0x000058c0        0x0 build/con.o
- .bss           0x000058c0        0x0 build/ddump.o
+ .bss           0x00005600        0x0 build/kernel.o
+ .bss           0x00005600      0x120 build/fd.o
+                0x00005600                fdMap
+                0x00005620                fdTable
+ .bss           0x00005720      0x260 build/fs.o
+                0x00005720                drive
+                0x00005740                sectorMap
+                0x00005780                FSDirTable
+ .bss           0x00005980        0x0 build/vgac.o
+ .bss           0x00005980        0x0 build/string.o
+ .bss           0x00005980        0x0 build/con.o
+ .bss           0x00005980        0x0 build/ddump.o
 
 /DISCARD/
  *(.eh_frame)
@@ -144,6 +147,7 @@ LOAD build/vgac.o
 LOAD build/power.o
 LOAD build/disk.o
 LOAD build/mem.o
+LOAD build/syscall.o
 LOAD build/string.o
 LOAD build/con.o
 LOAD build/ddump.o

@@ -17,7 +17,7 @@
 
 typedef struct FSEntry
 {
-    uint8_t entryUsed;  //0x00 no, 0x01 yes;
+    uint8_t entryUsed;       //0x00 no, 0x01 yes;
     char entryName[11];
     uint16_t entryLocation;  //n of sector where is entry is stored
     uint16_t entrySize;      //size of the entry, for now max size would be a 512 bytes
@@ -30,10 +30,10 @@ extern char drive;
 
 extern void initFS();
 
-extern int open(const char* filename, uint8_t flags);
-extern int new(const char* filename);
+extern int sysOpen(const char* filename, uint8_t flags);
+extern int sysNew(const char* filename);
 
-extern int close(int fd);
+extern int sysClose(int fd);
 
-extern int write(int fd, void* buffer, uint16_t size);
-extern int read(int fd, void* buffer, uint16_t size);
+extern int sysWrite(int fd, void* buffer, uint16_t size);
+extern int sysRead(int fd, void* buffer, uint16_t size);
