@@ -1,29 +1,7 @@
-#include "../include/sys/keyboard.h"
-#include "../include/sys/vga.h"
-#include "../include/sys/disk.h"
-#include "../include/sys/mem.h"
-#include "../include/sys/syscall.h"
-#include "../include/fs.h"
-#include "../include/type.h"
-#include "../include/string.h"
 
-#include "../bin/con.h"
-
-const char* kernelMsg = "\n\rHuesOS kernel v0.01, most unstable os ever\n\rAxeVKP22 2026\n\rtype help for command list\n\r";
 
 void kmain(void) {
-    clearScreen();
-    getDrive(&drive);
-
-    syscallInit();
-    initFS();
-
-    printString(kernelMsg);
-    newLine();
-    
-    while (1) {
-        con();
-    }
+    for (;;) {}
 }
 
 /* 
