@@ -18,7 +18,7 @@ start:
 
     ; print S
     mov ah, 0x0e
-    mov al, 'S'     ; this code is so unstable that without printring s kernel will not load :/
+    mov al, 'b'     ; this code is so unstable that without printring s kernel will not load :/
     int 0x10
 
     mov al, [boot_drive] ; for some reason, without this kernel will not load
@@ -28,7 +28,7 @@ start:
     mov ah, 0x02
     mov al, 1          ; sectors to read
     mov ch, 0          ; cylinder
-    mov cl, 3          ; sector (starts at 1)
+    mov cl, 2          ; sector (starts at 1)
     mov dh, 0          ; head
     mov dl, [boot_drive]
 
@@ -96,4 +96,4 @@ dw 0xaa55
 ;ndisasm -b 16 -o 0x7C00 build/os.img
 ;qemu-system-i386 -drive format=raw,file=build/os.img
 ;ndisasm -b 16 build/os.img 
-;dd if=/home/axe/gitProjects/wowos/build/os.img of=/dev/sda bs=4M status=progress conv=fsync
+;dd if=//home/axe/gitProjects/HuesOS/HuesOS32Bit/build/os.img of=/dev/sda bs=4M status=progress conv=fsync

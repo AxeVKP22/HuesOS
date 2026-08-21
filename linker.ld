@@ -1,34 +1,23 @@
-OUTPUT_FORMAT(binary)
+ENTRY(kmain)
 
 SECTIONS
 {
-    . = 0x4500;
+    . = 0x00100000;
 
-    .text :
-    {
-        *(.text)
+    .text : {
+        *(.text*)
     }
 
-    .rodata :
-    {
-        *(.rodata)
+    .rodata : {
+        *(.rodata*)
     }
 
-    .data :
-    {
-        *(.data)
+    .data : {
+        *(.data*)
     }
 
-    .bss :
-    {
+    .bss : {
         *(COMMON)
-        *(.bss)
-    }
-
-    /DISCARD/ :
-    {
-        *(.eh_frame)
-        *(.comment)
-        *(.note.GNU-stack)
+        *(.bss*)
     }
 }
