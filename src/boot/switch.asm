@@ -5,7 +5,7 @@ start:
 
     ;load kernel to 0x8000
     mov ah, 0x02
-    mov al, 1         ; sectors to read
+    mov al, 2         ; sectors to read
     mov ch, 0          ; cylinder
     mov cl, 3          ; sector (starts at 1)
     mov dh, 0          ; head
@@ -94,7 +94,7 @@ protectedMode:
     mov esi, 0x8000
     mov edi, 0x100000
 
-    mov ecx, 512/4
+    mov ecx, 1024/4
     rep movsd
 
     jmp 0x08:0x100000
