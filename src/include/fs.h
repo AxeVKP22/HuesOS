@@ -9,6 +9,7 @@
 
 #define MAXFILES 32
 #define RESERVED 22
+#define MAXSIZE 512
 
 #define O_READ 0x01
 #define O_WRITE 0x02
@@ -37,3 +38,5 @@ extern int sysClose(int fd);
 
 extern int sysWrite(int fd, void* buffer, uint16_t size);
 extern int sysRead(int fd, void* buffer, uint16_t size);
+
+extern int sysGetSize(int fd);

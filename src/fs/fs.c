@@ -131,7 +131,8 @@ int sysOpen(const char* filename, uint8_t flags) {
                 .segment = 0x0000,
                 .flags = flags,
                 .used = 0x01,
-                .fileLocation = i
+                .fileLocation = i,
+                .fileSize = FSDirTable[i].entrySize
             };
             
             return allocateFd(&fd);
@@ -238,4 +239,8 @@ int sysRead(int fd, void* buffer, uint16_t size) {
     }
     memcpyToBuff(buffer, rFd.segment, rFd.offset, size);
     return size;
+}
+
+extern int sysGetSize(int fd) {
+    return getFd(fd).fileSize;
 }
