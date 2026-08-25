@@ -10,9 +10,11 @@
 typedef struct fileDescriptor
 {   
     uint8_t flags;
-    uint8_t used;               //0x00 no; 0x01 yes
+    uint8_t used;               //0x00 no; 0x01 yes 
+
     uint16_t fileLocation;
     uint16_t fileSize;
+    uint16_t fileSector;
 
     uint16_t segment;
     uint16_t offset;            //addr where file is lod

@@ -25,6 +25,6 @@ ld -m elf_i386 -T linker.ld build/kernel.o build/fd.o build/fs.o build/keyboard.
 
 dd if=/dev/zero bs=512 count=1 > empty.bin
 cat build/boot.bin empty.bin build/kernel.bin > build/os.img
-truncate -s 12800 build/os.img
+truncate -s 51200 build/os.img
 
 echo "Build complete: build/os.img"

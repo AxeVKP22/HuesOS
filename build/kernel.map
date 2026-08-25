@@ -12,7 +12,7 @@ Discarded input sections
  .comment       0x00000000       0x20 build/fs.o
  .note.GNU-stack
                 0x00000000        0x0 build/fs.o
- .eh_frame      0x00000000      0x168 build/fs.o
+ .eh_frame      0x00000000      0x198 build/fs.o
  .comment       0x00000000       0x20 build/vgac.o
  .note.GNU-stack
                 0x00000000        0x0 build/vgac.o
@@ -39,101 +39,108 @@ Linker script and memory map
 
                 0x00004500                        . = 0x4500
 
-.text           0x00004500     0x105b
+.text           0x00004500     0x15ea
  *(.text)
  .text          0x00004500       0x4a build/kernel.o
                 0x00004500                kmain
- .text          0x0000454a       0xfd build/fd.o
+ .text          0x0000454a       0xfe build/fd.o
                 0x0000454a                getFd
-                0x0000457a                allocateFd
-                0x000045c6                freeFd
-                0x0000461b                calcOffset
- .text          0x00004647      0x6eb build/fs.o
-                0x0000475a                initFS
-                0x0000495d                sysOpen
-                0x00004a63                sysNew
-                0x00004b66                sysClose
-                0x00004c3d                sysWrite
-                0x00004ca5                sysRead
-                0x00004d0d                sysGetSize
- *fill*         0x00004d32        0xe 
- .text          0x00004d40       0x1a build/keyboard.o
-                0x00004d40                readKey
- *fill*         0x00004d5a        0x6 
- .text          0x00004d60       0x71 build/vga.o
-                0x00004d60                setCursorPos
-                0x00004d78                getCursorPos
-                0x00004d94                printChar
-                0x00004da4                printString
-                0x00004dbd                newLine
-                0x00004dca                clearScreen
- .text          0x00004dd1       0x64 build/vgac.o
-                0x00004dd1                printHex
- *fill*         0x00004e35        0xb 
- .text          0x00004e40        0x2 build/power.o
-                0x00004e40                reboot
- *fill*         0x00004e42        0xe 
- .text          0x00004e50       0x66 build/disk.o
-                0x00004e50                getDrive
-                0x00004e60                readSectors
-                0x00004e89                writeSectors
- *fill*         0x00004eb6        0xa 
- .text          0x00004ec0       0x4c build/mem.o
-                0x00004ec0                memcpyToRam
-                0x00004ee5                memcpyToBuff
- *fill*         0x00004f0c        0x4 
- .text          0x00004f10       0x7f build/syscall.o
-                0x00004f10                syscallInit
- .text          0x00004f8f       0x5b build/string.o
-                0x00004f8f                cmpstr
-                0x00004fce                length
- .text          0x00004fea      0x4ba build/con.o
-                0x00004fea                execCommmand
-                0x000053d3                con
- .text          0x000054a4       0xb7 build/ddump.o
-                0x000054a4                ddump
+                0x0000457b                allocateFd
+                0x000045c8                freeFd
+                0x0000461c                calcOffset
+ .text          0x00004648      0xbbd build/fs.o
+                0x0000475c                initFS
+                0x000049b9                sysOpen
+                0x00004cfa                sysNew
+                0x00004fba                sysClose
+                0x00005084                sysWrite
+                0x000050ec                sysRead
+                0x00005154                sysDelete
+                0x000051e0                sysGetSize
+ *fill*         0x00005205        0xb 
+ .text          0x00005210       0x1a build/keyboard.o
+                0x00005210                readKey
+ *fill*         0x0000522a        0x6 
+ .text          0x00005230       0x71 build/vga.o
+                0x00005230                setCursorPos
+                0x00005248                getCursorPos
+                0x00005264                printChar
+                0x00005274                printString
+                0x0000528d                newLine
+                0x0000529a                clearScreen
+ .text          0x000052a1       0x64 build/vgac.o
+                0x000052a1                printHex
+ *fill*         0x00005305        0xb 
+ .text          0x00005310        0x2 build/power.o
+                0x00005310                reboot
+ *fill*         0x00005312        0xe 
+ .text          0x00005320       0x66 build/disk.o
+                0x00005320                getDrive
+                0x00005330                readSectors
+                0x00005359                writeSectors
+ *fill*         0x00005386        0xa 
+ .text          0x00005390       0x4c build/mem.o
+                0x00005390                memcpyToRam
+                0x000053b5                memcpyToBuff
+ *fill*         0x000053dc        0x4 
+ .text          0x000053e0       0x7f build/syscall.o
+                0x000053e0                syscallInit
+ .text          0x0000545f       0x5b build/string.o
+                0x0000545f                cmpstr
+                0x0000549e                length
+ .text          0x000054ba      0x579 build/con.o
+                0x000054ba                execCommmand
+                0x0000594b                con
+ .text          0x00005a33       0xb7 build/ddump.o
+                0x00005a33                ddump
 
-.rodata         0x0000555c       0x10
+.rodata         0x00005aec       0x20
  *(.rodata)
- .rodata        0x0000555c       0x10 build/ddump.o
+ .rodata        0x00005aec       0x10 build/fs.o
+ .rodata        0x00005afc       0x10 build/ddump.o
 
-.rodata.str1.1  0x0000556c      0x35c
+.rodata.str1.1  0x00005b0c      0x43e
  .rodata.str1.1
-                0x0000556c       0x5a build/kernel.o
+                0x00005b0c       0x5a build/kernel.o
  .rodata.str1.1
-                0x000055c6      0x11a build/fs.o
+                0x00005b66      0x138 build/fs.o
  .rodata.str1.1
-                0x000056e0       0x11 build/vgac.o
+                0x00005c9e       0x11 build/vgac.o
  .rodata.str1.1
-                0x000056f1      0x1d7 build/con.o
+                0x00005caf      0x29b build/con.o
 
-.data           0x000058c8       0x14
+.data           0x00005f60       0x68
  *(.data)
- .data          0x000058c8        0x4 build/kernel.o
-                0x000058c8                kernelMsg
- .data          0x000058cc        0x0 build/fd.o
- .data          0x000058cc       0x10 build/fs.o
-                0x000058cc                dap
- .data          0x000058dc        0x0 build/vgac.o
- .data          0x000058dc        0x0 build/string.o
- .data          0x000058dc        0x0 build/con.o
- .data          0x000058dc        0x0 build/ddump.o
+ .data          0x00005f60        0x4 build/kernel.o
+                0x00005f60                kernelMsg
+ .data          0x00005f64        0x0 build/fd.o
+ *fill*         0x00005f64       0x1c 
+ .data          0x00005f80       0x48 build/fs.o
+                0x00005f80                dap
+                0x00005fa0                workingDir
+                0x00005fc0                currTableP
+                0x00005fc4                currTableLoc
+ .data          0x00005fc8        0x0 build/vgac.o
+ .data          0x00005fc8        0x0 build/string.o
+ .data          0x00005fc8        0x0 build/con.o
+ .data          0x00005fc8        0x0 build/ddump.o
 
-.bss            0x000058e0      0x3c0
+.bss            0x00005fe0      0x7c0
  *(COMMON)
  *(.bss)
- .bss           0x000058e0        0x0 build/kernel.o
- .bss           0x000058e0      0x160 build/fd.o
-                0x000058e0                fdMap
-                0x00005900                fdTable
- .bss           0x00005a40      0x260 build/fs.o
-                0x00005a40                drive
-                0x00005a60                sectorMap
-                0x00005aa0                FSDirTable
- .bss           0x00005ca0        0x0 build/vgac.o
- .bss           0x00005ca0        0x0 build/string.o
- .bss           0x00005ca0        0x0 build/con.o
- .bss           0x00005ca0        0x0 build/ddump.o
+ .bss           0x00005fe0        0x0 build/kernel.o
+ .bss           0x00005fe0      0x1a0 build/fd.o
+                0x00005fe0                fdMap
+                0x00006000                fdTable
+ .bss           0x00006180      0x620 build/fs.o
+                0x00006180                drive
+                0x000061a0                sectorMap
+                0x000063a0                currTable
+                0x000065a0                rootTable
+ .bss           0x000067a0        0x0 build/vgac.o
+ .bss           0x000067a0        0x0 build/string.o
+ .bss           0x000067a0        0x0 build/con.o
+ .bss           0x000067a0        0x0 build/ddump.o
 
 /DISCARD/
  *(.eh_frame)

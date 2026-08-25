@@ -8,8 +8,11 @@
 #include "string.h"
 
 #define MAXFILES 32
-#define RESERVED 22
+#define RESERVED 27
 #define MAXSIZE 512
+
+#define ROOT_TABLE 25
+#define SECTOR_MAP 26
 
 #define O_READ 0x01
 #define O_WRITE 0x02
@@ -24,8 +27,11 @@ typedef struct FSEntry
     uint16_t entrySize;      //size of the entry, for now max size would be a 512 bytes
 } FSEntry;
 
-extern struct FSEntry FSDirTable[MAXFILES];
-extern uint8_t sectorMap[63];
+extern struct FSEntry rootTable[MAXFILES];
+extern struct FSEntry* currTableP;
+extern uint8_t sectorMap[512];
+
+extern char workingDir[32];
 
 extern char drive;
 
@@ -38,5 +44,7 @@ extern int sysClose(int fd);
 
 extern int sysWrite(int fd, void* buffer, uint16_t size);
 extern int sysRead(int fd, void* buffer, uint16_t size);
+
+extern int sysDelete(const char* filename);
 
 extern int sysGetSize(int fd);

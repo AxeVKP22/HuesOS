@@ -4,6 +4,7 @@ void con() {
     int counter = 0;
     char buffer[64] = {0};
 
+    printString(workingDir);
     printChar('$');
 
     while (1) {
@@ -13,14 +14,15 @@ void con() {
             counter = 0;
             break;
         }
-        else if (scancode == 0x0E) {
-            counter--;
-            buffer[counter] = 0;
+        if (scancode == 0x0E) {
+            if (counter > 0) {
+                counter--;
+                buffer[counter] = 0;
 
-            printChar('\b');
-            printChar(' ');
-            printChar('\b');
-
+                printChar('\b');
+                printChar(' ');
+                printChar('\b');
+            }
             continue;
         }
 
@@ -75,17 +77,19 @@ int execCommmand(const char* command) {
     if (cmpstr("help", buffer) == 0) {
         printString("Available commands:\n\r"
             "\n\r[DEBUG]\n\r"
-            "ddump [n] - prints data stored in sector [n]\n\r"
+            "ddump [n]                  prints data stored in sector [n]\n\r"
             "\n\r[FS]\n\r"
-            "touch [filename] - creates a new file with name [filename]\n\r"
-            "cat [filename] - prints content of the [filename]\n\r"
-            "write [filename] [data] - write a [data] to [filename]\n\r"
+            "touch [filename]           creates a new file with name [filename]\n\r"
+            "cat [filename]             prints content of the [filename]\n\r"
+            "write [filename] [data]    write a [data] to [filename]\n\r"
+            "cd [filename]              change current diretory to [filename]\n\r"
+            "ls                         prints files in current directory\n\r"
             "\n\r[CONSOLE]\n\r"
-            "clear - clears the screen\n\r"
+            "clear                      clears the screen\n\r"
             "\n\r[POWER]\n\r"
-            "reboot - reboots the system\n\r"
+            "reboot                     reboots the system\n\r"
             "\n\r[OTHER]\n\r"
-            "help - shows this message\n\r");
+            "help                       shows this message\n\r");
     }
     else if (cmpstr("reboot", buffer) == 0) {
         reboot();
@@ -107,9 +111,6 @@ int execCommmand(const char* command) {
 
     else if (cmpstr("touch", buffer) == 0) {
         int fd = sysNew(args[0]);
-        if (fd != -1) {
-            printString("File created successfully\n\r");
-        }
     }
 
     else if (cmpstr("cat", buffer) == 0) {
@@ -158,19 +159,35 @@ int execCommmand(const char* command) {
 
                 data[i] = (high << 4) | low;
             }
-
-            if (sysWrite(fd, data, len) == len)
-                printString("success");
+            sysWrite(fd, data, len);
 
             sysClose(fd);
         }
+    }
 
-        newLine();
+    else if (cmpstr("ls", buffer) == 0) {
+        for (int i = 0;i<MAXFILES;i++) {
+            if (currTableP[i].entryUsed == 0x01) {
+                printChar(' ');
+                printChar(' ');  //for some reason it not supportys \t :/
+                printString(currTableP[i].entryName);
+                newLine();
+            }
+        }
+    }
+
+    else if (cmpstr("cd", buffer) == 0) {
+        int fd = sysOpen(args[0], 0x00);
+    }
+
+    else if (cmpstr("delete", buffer) == 0) {
+        sysDelete(args[0]);
+        
     }
 
     else {
         printString(buffer);
         printString(" : Command not found\n\r");
-    }
+    }           
     return 0;
 }
