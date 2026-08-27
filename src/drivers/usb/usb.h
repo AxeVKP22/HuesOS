@@ -1,10 +1,10 @@
 #pragma once
 
-#include "type.h"
+#include "../../include/type.h"
 
-#include "sys/io/io.h"
+#include "../../include/sys/io/io.h"
 
-#include "lib/memcpy.h"
+#include "../../include/lib/memcpy.h"
 
 #define USB_CONTROLLER_NOT_FOUND 0x10
 

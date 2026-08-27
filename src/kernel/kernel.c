@@ -3,7 +3,7 @@
 
 #include "../include/type.h"
 
-#include "../include/usb.h"
+#include "../drivers/usb/usb.h"
 
 
 void kmain(void) {
