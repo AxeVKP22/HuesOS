@@ -4,22 +4,21 @@
 #include "include/type.h"
 
 #include "drivers/usb/usb.h"
+#include "drivers/ps2/ps2.h"
+#include "drivers/vga/vga.h"
 
 
 void kmain(void) {
-    uint8_t y[] = {0x59, 0x4F};
-    uint8_t n[] = {0x4E, 0x4F};
-    uint8_t f[] = {0x46, 0x4F};
-
     uint8_t usbControllerType = initUSB();
 
-    if (usbControllerType == USB_CONTROLLER_XHCI) {
-        memcpy(y, (void*)0xB8000, 2);
-    } else if (usbControllerType == USB_CONTROLLER_EHCI) {
-        memcpy(n, (void*)0xB8000, 2);
-    } else if (usbControllerType == USB_CONTROLLER_NOT_FOUND) {
-        memcpy(f, (void*)0xB8000, 2);
-    }
+    putChar('H', COLOR_MAGNETA);
+    putChar('e', COLOR_RED);
+    putChar('l', COLOR_GREEN);
+    putChar('l', COLOR_CYAN);
+    putChar('o', COLOR_LIGHT_BLUE);
+    putChar('!', COLOR_BLUE);
+
+    
 
     for (;;) {}
 }

@@ -5,9 +5,9 @@
 #include "include/lib/memcpy.h"
 
 typedef struct {
-    unsigned char scancode;
-    const char *name;
-    char ascii;
+    uint8_t scancode;
+    const uint8_t *name;
+    uint8_t ascii;
 } Key;
 
 static const Key keyboard[128] = {

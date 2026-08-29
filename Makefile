@@ -7,6 +7,10 @@ CFLAGS = -m32 -ffreestanding -fno-pie -fno-pic \
          -fno-stack-protector \
          -fno-asynchronous-unwind-tables \
          -fno-unwind-tables \
+         -fomit-frame-pointer \
+         -fno-builtin \
+         -ffunction-sections \
+         -fdata-sections \
          -Os \
          -Isrc
 
@@ -28,6 +32,12 @@ $(BUILD)/usbCore.o: src/drivers/usb/core/usbCore.c | $(BUILD)
 $(BUILD)/xhci.o: src/drivers/usb/xhci/xhci.c | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(BUILD)/ps2Keyboard.o: src/drivers/ps2/keyboard/ps2Keyboard.c | $(BUILD)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/vga.o: src/drivers/vga/vga.c | $(BUILD)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(BUILD)/memcpy.o: src/lib/asm/memcpy.asm | $(BUILD)
 	$(NASM) -f elf32 $< -o $@
 
@@ -45,7 +55,9 @@ $(BUILD)/kernel.elf: \
 	$(BUILD)/usbCore.o \
 	$(BUILD)/xhci.o \
 	$(BUILD)/memcpy.o \
-	$(BUILD)/io.o
+	$(BUILD)/io.o \
+	$(BUILD)/ps2Keyboard.o \
+	$(BUILD)/vga.o
 	$(LD) $(LDFLAGS) $^ -o $@
 
 $(BUILD)/kernel.bin: $(BUILD)/kernel.elf
@@ -56,7 +68,7 @@ $(BUILD)/os.img: \
 	$(BUILD)/switch.bin \
 	$(BUILD)/kernel.bin
 	cat $^ > $@
-	truncate -s 2048 $@
+	truncate -s 6144 $@
 	stat -c '%s' $(BUILD)/kernel.bin
 	@echo ".img file in build dir"
 

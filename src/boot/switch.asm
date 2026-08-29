@@ -3,18 +3,9 @@ bits 16
 
 start:
 
-    ;load kernel to 0x8000
-    mov ah, 0x02
-    mov al, 2         ; sectors to read
-    mov ch, 0          ; cylinder
-    mov cl, 3          ; sector (starts at 1)
-    mov dh, 0          ; head
-
-    xor bx, bx
-    mov es, bx
-    mov bx, 0x8000     ; load address
-
-    int 0x13
+    mov si, dap
+    mov ah, 42h
+    int 13h
     jc disk_error
 
     mov ah, 0x0e
@@ -79,12 +70,22 @@ print_nibble:
 
 error_code db 0
 
+dap:
+    db 0x10
+    db 0x00
+    dw 10 ;n of sectrors
 
+    dw 0x8000
+    dw 0x0000
+
+    dq 0x0000000000000002 ;lba 2
 
 
 ;jmp to kerne;
 bits 32
 protectedMode:
+    cld
+
     mov ax, 0x10
     mov ds, ax
     mov es, ax  
@@ -94,7 +95,7 @@ protectedMode:
     mov esi, 0x8000
     mov edi, 0x100000
 
-    mov ecx, 1024/4
+    mov ecx, 6144/4
     rep movsd
 
     jmp 0x08:0x100000
