@@ -1,9 +1,9 @@
-#include "../include/lib/memcpy.h"
-#include "../include/sys/io/io.h"
+#include "include/lib/memcpy.h"
+#include "include/sys/io/io.h"
 
-#include "../include/type.h"
+#include "include/type.h"
 
-#include "../drivers/usb/usb.h"
+#include "drivers/usb/usb.h"
 
 
 void kmain(void) {

@@ -1,4 +1,4 @@
 #pragma once
 
-#include "../usb.h"
-#include "../xhci/xhci.h"
+#include "drivers/usb/usb.h"
+#include "drivers/usb/xhci/xhci.h"

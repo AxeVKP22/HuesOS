@@ -1,10 +1,14 @@
 #include "ps2Keyboard.h"
 
-int ps2ReadKey(uint8_t* scanCode) {
-    uint8_t status = inb(0x64);
+const Key* ps2ReadKey(void)
+{
+    if (!(inb(0x64) & 1))
+        return 0;
 
-    if (status & 1) {
-        *scanCode = inb(0x60);
-    }
-    return 0;
+    uint8_t scanCode = inb(0x60);
+
+    if (scanCode & 0x80)
+        return 0;
+
+    return &keyboard[scanCode];
 }

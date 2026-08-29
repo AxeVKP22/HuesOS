@@ -7,7 +7,8 @@ CFLAGS = -m32 -ffreestanding -fno-pie -fno-pic \
          -fno-stack-protector \
          -fno-asynchronous-unwind-tables \
          -fno-unwind-tables \
-         -Os
+         -Os \
+         -Isrc
 
 LDFLAGS = -m elf_i386 -T linker.ld
 
