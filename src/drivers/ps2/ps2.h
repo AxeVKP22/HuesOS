@@ -4,6 +4,10 @@
 #include "include/sys/io/io.h"
 #include "include/lib/memcpy.h"
 
+#include "drivers/vga/vga.h"
+
+#define BUFFER_SIZE 32
+
 typedef struct {
     uint8_t scancode;
     const uint8_t *name;
@@ -156,3 +160,4 @@ static const Key keyboard[128] = {
 };
 
 extern const Key* ps2ReadKey(void);
+extern void ps2Init(void);

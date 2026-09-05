@@ -25,3 +25,6 @@
 #define COLOR_WHITE             0xff
 
 extern void putChar(uint8_t Pchar, uint8_t color);
+extern void putString(const char* str, uint8_t color);
+extern void setCursorPos(uint8_t x, uint8_t y);
+extern void newLine();

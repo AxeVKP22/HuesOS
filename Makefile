@@ -35,13 +35,29 @@ $(BUILD)/xhci.o: src/drivers/usb/xhci/xhci.c | $(BUILD)
 $(BUILD)/ps2Keyboard.o: src/drivers/ps2/keyboard/ps2Keyboard.c | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(BUILD)/ps2Handler.o: src/drivers/ps2/keyboard/asm/ps2Handler.S | $(BUILD)
+	$(CC) $(CFLAGS) -D__ASSEMBLER__ -E -P $< -o $(BUILD)/ps2Handler.i
+	$(NASM) -f elf32 $(BUILD)/ps2Handler.i -o $@
+
 $(BUILD)/vga.o: src/drivers/vga/vga.c | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/pic.o: src/kernel/ints/pic/pic.c | $(BUILD)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/idt.o: src/kernel/ints/idt/idt.c | $(BUILD)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD)/lidt.o: src/kernel/ints/idt/asm/lidt.asm | $(BUILD)
+	$(NASM) -f elf32 $< -o $@
 
 $(BUILD)/memcpy.o: src/lib/asm/memcpy.asm | $(BUILD)
 	$(NASM) -f elf32 $< -o $@
 
 $(BUILD)/io.o: src/kernel/asm/io/io.asm | $(BUILD)
+	$(NASM) -f elf32 $< -o $@
+
+$(BUILD)/sti.o: src/kernel/asm/sti.asm | $(BUILD)
 	$(NASM) -f elf32 $< -o $@
 
 $(BUILD)/boot.bin: src/boot/boot.asm | $(BUILD)
@@ -56,8 +72,13 @@ $(BUILD)/kernel.elf: \
 	$(BUILD)/xhci.o \
 	$(BUILD)/memcpy.o \
 	$(BUILD)/io.o \
+	$(BUILD)/sti.o \
 	$(BUILD)/ps2Keyboard.o \
-	$(BUILD)/vga.o
+	$(BUILD)/ps2Handler.o \
+	$(BUILD)/vga.o \
+	$(BUILD)/pic.o \
+	$(BUILD)/idt.o \
+	$(BUILD)/lidt.o
 	$(LD) $(LDFLAGS) $^ -o $@
 
 $(BUILD)/kernel.bin: $(BUILD)/kernel.elf
@@ -75,7 +96,8 @@ $(BUILD)/os.img: \
 clean:
 	rm -f $(BUILD)/*.o \
 	      $(BUILD)/*.bin \
-	      $(BUILD)/kernel.elf \
+	      $(BUILD)/*.elf \
+	      $(BUILD)/*.i \
 	      $(BUILD)/os.img
 
 .PHONY: all clean
