@@ -6,8 +6,6 @@
 
 #include "drivers/vga/vga.h"
 
-#define BUFFER_SIZE 32
-
 typedef struct {
     uint8_t scancode;
     const uint8_t *name;

@@ -51,15 +51,15 @@ static struct USBcontroller findController() {
     return usbcontroller;
 }
 
-uint8_t initUSB() {
+struct USBcontroller initUSB() {
     struct USBcontroller usbcontroller = findController();
 
     if (usbcontroller.progIF == USB_CONTROLLER_XHCI) {
         initXHCI(&usbcontroller);
-        return USB_CONTROLLER_XHCI;
+        return usbcontroller;
     } else if (usbcontroller.progIF == USB_CONTROLLER_EHCI) {
-        return USB_CONTROLLER_EHCI;
+        return usbcontroller;
     } else if (usbcontroller.progIF == USB_CONTROLLER_NOT_FOUND) {
-        return USB_CONTROLLER_NOT_FOUND;
+        return usbcontroller;
     }
 }

@@ -1,22 +1,12 @@
 #include "ps2Keyboard.h"
 
-uint8_t ps2KeyBuffer[BUFFER_SIZE];
-
-uint8_t bufferRead = 0;
-uint8_t bufferWrite = 0;
-uint8_t bufferCount = 0;
+volatile uint8_t ps2KeyBuffer = 0x00;
 
 const Key* ps2ReadKey(void) {
-    while (bufferCount == 0) {}
+    while (ps2KeyBuffer == 0x00) {}
 
-    uint8_t scanCode = ps2KeyBuffer[bufferRead];
-    putChar(keyboard[scanCode].ascii, COLOR_CYAN);
-
-    bufferRead++;
-    if (bufferRead >= BUFFER_SIZE)
-        bufferRead = 0;
-
-    bufferCount--;
+    uint8_t scanCode = ps2KeyBuffer;
+    ps2KeyBuffer = 0x00;
 
     return &keyboard[scanCode];
 }
@@ -25,16 +15,7 @@ void ps2KeyboardHandler(void) {
     uint8_t scanCode = inb(0x60);
 
     if (!(scanCode & 0x80)) {
-
-        if (bufferCount < BUFFER_SIZE) {
-            ps2KeyBuffer[bufferWrite] = scanCode;
-
-            bufferWrite++;
-            if (bufferWrite >= BUFFER_SIZE)
-                bufferWrite = 0;
-
-            bufferCount++;
-        }
+        ps2KeyBuffer = scanCode;
     }
 
     outb(0x20, 0x20);

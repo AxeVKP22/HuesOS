@@ -15,12 +15,15 @@ void kmain(void) {
     remapPic();
     initIDT();
     sti();
-    uint8_t usbControllerType = initUSB();
+    struct USBcontroller usbControllerType = initUSB();
     ps2Init();
 
     putString("HuesOS 32-bit Kernel Initialized!", COLOR_GREEN);
+    newLine();
 
     for (;;) {
+        Key* key = ps2ReadKey();
+        putChar(key->ascii, COLOR_BLACK);
     }
 }
 /*

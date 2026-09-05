@@ -18,6 +18,7 @@ void initXHCI(struct USBcontroller* usbcontroller) {
             outl(0xCF8, (1 << 31) | (usbcontroller->bus << 16) | (usbcontroller->device << 11) | (usbcontroller->function << 8) | 0x14);
             uint32_t BARAddressHigh = inl(0xCFC);
             BARAddress = ((uint64_t)BARAddressHigh << 32) | (data & 0xFFFFFFF0);
+            usbcontroller->BARAddress = BARAddress;
         }
     }
 

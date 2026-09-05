@@ -18,6 +18,7 @@ typedef struct USBcontroller {
     uint8_t classCode;
     uint8_t subclassCode;
     uint8_t progIF;
+    uint32_t BARAddress;
 }USBcontroller;
 
-extern uint8_t initUSB();
+extern struct USBcontroller initUSB();
