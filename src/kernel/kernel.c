@@ -18,8 +18,6 @@ void kmain(void) {
     putChar('o', COLOR_LIGHT_BLUE);
     putChar('!', COLOR_BLUE);
 
-    
-
     for (;;) {}
 }
 /*
