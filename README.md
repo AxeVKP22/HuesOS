@@ -1,13 +1,24 @@
 # HuesOS
 most unstable os ever
 
-Build:
+
+
+### Versions:
+
+**16-bit**
+
+**32-bit**
+
+
+## 16-bit
+
+**Build:**
 
 ```bash
 ./build.sh
 ```
+**Interrupts**
 
-## Interrupts
 0x00 - open(const char* filename, uint8_t flags);
 
 0x01 - close(int fd);
@@ -18,3 +29,11 @@ Build:
 
 0x04 - new(const char* filename);
 
+
+## 32-bit
+
+**Build:**
+
+```bash
+make
+```
